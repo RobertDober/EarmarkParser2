@@ -1,11 +1,10 @@
 defmodule EarmarkParser2.Lexer do
   @moduledoc false
 
+  use EarmarkParser2.Types
 
-  @type partial_token_t :: {atom(), String.t, len: number()} 
-  @type partial_token_ts :: list(partial_token_t)
-  @type token_t :: {atom(), String.t, len: number(), lnb: number()} 
-  @type token_ts :: list(token_t)
+  @typep partial_token_t :: {atom(), String.t, len: number()} 
+  @typep partial_token_ts :: list(partial_token_t)
 
   @spec tokenize(String.t, lnb: number()) :: token_ts
   def tokenize(line, lnb: lnb) do
