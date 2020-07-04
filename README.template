@@ -11,11 +11,9 @@
 
 %toc
 
-## Dependency
+## Usage
 
     { :earmark_parser2, "~> 0.1.0" }
-
-## Usage
 
 %moduledoc EarmarkParser2
 
