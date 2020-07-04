@@ -55,7 +55,7 @@ defmodule Unit.TokenLexer.SingleTokensTest do
 
           test ~s{escaped token #{token} becomes a text with "#{content}"} do
             escaped_input = unquote(content) |> String.graphemes |> Enum.map(&("\\#{&1}")) |> Enum.join
-            expected = [{:text, unquote(content), [len: String.length(unquote(content))]}]
+            expected = [{:text, unquote(content), [len: 2*String.length(unquote(content))]}]
 
             assert tokenize(escaped_input) == expected
           end

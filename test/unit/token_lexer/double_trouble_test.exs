@@ -6,7 +6,6 @@ defmodule Unit.TokenLexer.DoubleTroubleTest do
       {:bar, "|"},
       {:colon, ":"},
       {:dquote, ~s{"}},
-      {:escape, "\\"},
       {:lparen, "("},
       {:lacc, "{"},
       {:lbracket, "["},
