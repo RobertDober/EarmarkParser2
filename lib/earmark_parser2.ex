@@ -1,6 +1,6 @@
 defmodule EarmarkParser2 do
   use EarmarkParser2.Types
-  alias EarmarkParser2.{Error,Lexer,Options,Parser}
+  alias EarmarkParser2.{AstCtxt,Error,Lexer,Options,Parser}
 
   @type input_t :: list(String.t) | String.t
   @type options_t :: Options.t | map() | Keyword.t
@@ -12,7 +12,7 @@ defmodule EarmarkParser2 do
   @doc """
   Coming even sooner
   """
-  @spec as_ast(input_t(), options_t()) :: ast_ts()
+  # @spec as_ast(input_t(), options_t()) :: result_t()
   def as_ast(lines, options \\ %Options{})
 
   def as_ast(lines, %Options{} = options) do
@@ -29,7 +29,7 @@ defmodule EarmarkParser2 do
 
   @crlf ~r{\n\r?}
   @default_timeout_in_ms 5000
-  @spec _as_ast(list(String.t), Options.t) :: ast_ts
+  # @spec _as_ast(list(String.t), Options.t) :: result_t()
   defp _as_ast(lines, options)
 
   defp _as_ast(lines, options) when is_list(lines) do
@@ -45,7 +45,6 @@ defmodule EarmarkParser2 do
     |> String.split(@crlf)
     |> _as_ast(options)
   end
-
 
   @spec _pflat_map(list(), (any() -> any()), maybe(number())) :: any() 
   defp _pflat_map(collection, func, timeout \\ @default_timeout_in_ms) do

@@ -14,8 +14,7 @@ defmodule EarmarkParser2.Options do
             smartypants: true,
             timeout: nil,
             file: "<no file>",
-            line: 1,
-            messages: []
+            line: 1
 
   @type t :: %__MODULE__{
           breaks: boolean,
@@ -29,8 +28,7 @@ defmodule EarmarkParser2.Options do
           smartypants: boolean,
           timeout: number() | nil,
           file: String.t(),
-          line: number(),
-          messages: list
+          line: number()
         }
 end
 

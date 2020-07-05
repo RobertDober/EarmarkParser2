@@ -37,3 +37,13 @@
    └── utf8_test.exs
 
 Agenda:  W ... WIP, ✓ ... done,  <SPACE> ... not imported yet
+
+## Implementation Strategy
+
+_as_ast returns an AstCtxt that has errors and status and a list of AstNode
+
+```elixir
+@type ast_tuple_t :: {String.t | :comment, @ast_att_ts, ast_ts(), map()}
+@type ast_ts :: list(AstNode.t | ast_tuple_t())
+%AstNode.children :: ast_ts()
+``` 
