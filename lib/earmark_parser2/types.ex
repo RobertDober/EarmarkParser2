@@ -3,7 +3,7 @@ defmodule EarmarkParser2.Types do
   Keeps all types of the application in one place!
   """
 
-  defmacro __using__(opts) do
+  defmacro __using__(_opts) do
     quote do
 
       @typep ast_att_t :: {String.t, String.t}

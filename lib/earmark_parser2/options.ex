@@ -30,6 +30,17 @@ defmodule EarmarkParser2.Options do
           file: String.t(),
           line: number()
         }
+
+  @type options_t :: t() | map() | Keyword.t
+
+  @spec new(options_t()) :: t()
+  def new(options)
+  def new(options) when is_map(options) do
+    struct(__MODULE__, options |> Map.delete(:__struct__) |> Enum.into([]))
+  end
+  def new(options) when is_list(options) do
+    struct(__MODULE__, options)
+  end
 end
 
 # SPDX-License-Identifier: Apache-2.0

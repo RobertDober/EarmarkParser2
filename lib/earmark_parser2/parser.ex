@@ -2,15 +2,12 @@ defmodule EarmarkParser2.Parser do
   @moduledoc false
 
   use EarmarkParser2.Types
-  alias EarmarkParser2.{AstCtxt, AstNode, Options}
+  alias EarmarkParser2.{AstCtxt, Options}
 
-  @spec parse(token_ts(), Options.t()) :: result_t()
+  @spec parse(token_ts(), Options.t) :: AstCtxt.t
   def parse([_|tokens], options) do
-    ast_ctxt = AstCtxt.new(tokens: tokens, options: options)
-    case _parse_new(ast_ctxt) do
-      %AstCtxt{status: status, ast: ast, messages: messages} ->
-        {status, ast, messages}
-    end
+    ast_ctxt = AstCtxt.new(options: options, tokens: tokens)
+    _parse_new(ast_ctxt)
   end
 
   # Precondition Top of ast is new AstNode
