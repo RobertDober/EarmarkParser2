@@ -27,7 +27,7 @@ defmodule EarmarkParser2 do
   end
 
   @default_timeout_in_ms 5000
-  @spec _as_ast(list(String.t), Options.t) :: result_t()
+  @spec _as_ast(list(String.t()), Options.t()) :: result_t()
   defp _as_ast(lines, options)
 
   defp _as_ast(lines, options) do
@@ -35,15 +35,16 @@ defmodule EarmarkParser2 do
     |> Stream.zip(Stream.iterate(1, &(&1 + 1)))
     |> Enum.to_list()
     |> _pflat_map(&_tokenize_numbered_line/1, options.timeout || @default_timeout_in_ms)
-    |> Parser.parse(options)
+    |> _make_ctxt(options)
+    |> Parser.parse()
     |> _format_result()
   end
 
-  @spec _format_result(AstCtxt.t) :: result_t()
+  @spec _format_result(AstCtxt.t()) :: result_t()
   defp _format_result(ast_ctxt) do
     case ast_ctxt do
       %AstCtxt{ast: ast, messages: messages, status: status} ->
-        {status, ast |> AstNode.to_tuples, messages}
+        {status, ast |> AstNode.to_tuples(), messages}
     end
   end
 
@@ -63,14 +64,19 @@ defmodule EarmarkParser2 do
       "#{inspect(task)} has not responded within the set timeout of #{timeout}ms, consider increasing it"
     )
   end
-  @spec _pflat_map(list(), (any() -> any()), maybe(number())) :: any()
-  defp _pflat_map(collection, func, timeout \\ @default_timeout_in_ms) do
+
+  @spec _make_ctxt(token_ts(), options_t()) :: AstCtxt.t()
+  defp _make_ctxt(tokens, options) do
+    AstCtxt.new(options: options, tokens: tokens)
+  end
+
+  @spec _pflat_map(list(), (any() -> any()), number()) :: any()
+  defp _pflat_map(collection, func, timeout) do
     collection
     |> Enum.map(fn item -> Task.async(fn -> func.(item) end) end)
     |> Task.yield_many(timeout)
     |> Enum.flat_map(&_join_pmap_results_or_raise(&1, timeout))
   end
-
 
   @spec _tokenize_numbered_line(numbered_line_t()) :: token_ts()
   defp _tokenize_numbered_line({line, lnb}) do

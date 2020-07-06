@@ -29,8 +29,8 @@ defmodule Support.LexerTest do
     |> Enum.map(&_remove_lnb(&1, lnb))
   end
 
-  defp _remove_lnb(tuple, lnb) do
-    {token, content, len: len, lnb: ^lnb} = tuple
+  defp _remove_lnb(%EarmarkParser2.Token{}=token_struct, lnb) do
+    %{token: token, content: content, len: len, lnb: ^lnb} = token_struct
     {token, content, len: len}
   end
 end

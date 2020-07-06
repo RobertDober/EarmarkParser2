@@ -17,6 +17,7 @@ LBRACKET     = \[
 LPAREN       = \(
 OL_HEADER    = {OL_HEADER_DIGITS}\.\s+
 OPEN_IAL     = \{:
+OPEN_TAG     = \<{LETTER}+\>
 RACC         = \}
 RBRACKET     = \]
 RPAREN       = \)
@@ -27,7 +28,8 @@ TAG_SFX      = \s*>
 TILDE        = ~+
 UL_HEADER    = [-*]\s+
 UNDERSCORE   = _+
-VOID_TAG_SFX = \s*/>
+VOID_TAG     = \<{LETTER}+\s?/\>
+VOID_TAG_SFX = \s?/>
 WS           = \s+
 ANY          = [^-|`"{COLON}{ESCAPE}{LACC}{LBRACKET}{LPAREN}{RACC}{RBRACKET}{RPAREN}{SQUOTE}*~_\s<>]+
 
@@ -48,6 +50,7 @@ Rules.
 {OL_HEADER}      : {token, {ol_header, TokenChars, length(TokenChars)}}.
 {LPAREN}         : {token, {lparen, TokenChars, length(TokenChars)}}.
 {OPEN_IAL}       : {token, {open_ial, TokenChars, length(TokenChars)}}.
+{OPEN_TAG}       : {token, {open_tag, TokenChars, length(TokenChars)}}.
 {RACC}           : {token, {racc, TokenChars, length(TokenChars)}}.
 {RBRACKET}       : {token, {rbracket, TokenChars, length(TokenChars)}}.
 {RPAREN}         : {token, {rparen, TokenChars, length(TokenChars)}}.
@@ -57,6 +60,7 @@ Rules.
 {TILDE}          : {token, {tilde, TokenChars, length(TokenChars)}}.
 {UL_HEADER}      : {token, {ul_header, TokenChars, length(TokenChars)}}.
 {UNDERSCORE}     : {token, {underscore, TokenChars, length(TokenChars)}}.
+{VOID_TAG}       : {token, {void_tag, TokenChars, length(TokenChars)}}.
 {VOID_TAG_SFX}   : {token, {void_tag_sfx, TokenChars, length(TokenChars)}}.
 {WS}             : {token, {ws, TokenChars, length(TokenChars)}}.
 {ANY}            : {token, {text, TokenChars, length(TokenChars)}}.

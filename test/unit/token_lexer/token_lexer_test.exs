@@ -15,6 +15,18 @@ defmodule EarmarkParser2.Unit.TokenLexer.TokenLexerTest do
 
       assert tokenize(input) == expected
     end
+
+    test "too much space kills void tags" do
+      input = "<wbr  />"
+
+      expected = [
+        {:tag_pfx, "<wbr", len: 4},
+        {:ws, "  ", len: 2},
+        {:void_tag_sfx, "/>", len: 2}
+      ]
+
+      assert tokenize(input) == expected
+    end
   end
 
   describe "more tokens, but the same" do
@@ -32,5 +44,4 @@ defmodule EarmarkParser2.Unit.TokenLexer.TokenLexerTest do
       assert tokenize(input) == expected
     end
   end
-
 end

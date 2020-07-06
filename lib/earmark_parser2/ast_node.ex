@@ -10,13 +10,14 @@ defmodule EarmarkParser2.AstNode do
 
   @type content_t :: t() | String.t()
   @type content_ts :: list(content_t())
+  @type tag_t :: String.t() | :new | :comment | :root
 
   @type t :: %__MODULE__{
           atts: ast_att_ts(),
           content: content_ts(),
           meta: map(),
           parent: maybe(t),
-          tag: String.t()
+          tag: tag_t()
         }
 
   @spec to_tuple(content_t()) :: ast_tuple_t()
@@ -54,7 +55,7 @@ defmodule EarmarkParser2.AstNode do
   defp _to_tuples(nodes, result)
 
   defp _to_tuples([nd | nds], result) do
-    _to_tuples(nds, [to_tuple(nd)|result])
+    _to_tuples(nds, [to_tuple(nd) | result])
   end
 
   defp _to_tuples([], result) do

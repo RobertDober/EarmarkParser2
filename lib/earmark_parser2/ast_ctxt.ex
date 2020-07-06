@@ -42,7 +42,8 @@ defmodule EarmarkParser2.AstCtxt do
   end
 
   @spec with_new(t()) :: t()
+  def with_new( ast_ctxt \\ %__MODULE__{})
   def with_new(%__MODULE__{ast: ast} = ast_ctxt) do
-    %{ast_ctxt | ast: [%AstNode{} | ast]}
+    %{ast_ctxt | ast: [%AstNode{tag: :root} | ast]}
   end
 end
