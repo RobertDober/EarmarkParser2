@@ -10,8 +10,8 @@ defmodule EarmarkParser2.Unit.TokenLexer.TokenLexerTest do
     end
 
     test "####### The Magnificent 7" do
-      input = "#######"
-      expected = [{:text, input, len: 7}]
+      input = "####### "
+      expected = [{:text, "#######", len: 7}, {:ws, " ", len: 1}]
 
       assert tokenize(input) == expected
     end

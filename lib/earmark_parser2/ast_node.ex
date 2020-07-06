@@ -19,6 +19,27 @@ defmodule EarmarkParser2.AstNode do
           parent: maybe(t),
           tag: tag_t()
         }
+  @type ts :: nonempty_list(t())
+
+  
+  @spec add_to_top(ts(), content_t()) :: ts() 
+  def add_to_top([%__MODULE__{content: content}=top|rest], subject) do
+    [%{top | content: [subject | content]}|rest]
+  end
+  @spec close_node((ts())) :: ts()
+  def close_node([node, %__MODULE__{content: content} = parent | rest]) do
+    [%{parent | content: [node | content]} | rest]
+  end
+
+  @spec new_node(tag_t(), t()) :: t()
+  def new_node(tag, parent) do
+    %__MODULE__{tag: tag, parent: parent}
+  end
+
+  @spec open_node(tag_t(), ts()) :: ts()
+  def open_node(tag, [parent | rest]) do
+    [new_node(tag, parent), parent | rest]
+  end
 
   @spec to_tuple(content_t()) :: ast_tuple_t()
   def to_tuple(ast_nody)

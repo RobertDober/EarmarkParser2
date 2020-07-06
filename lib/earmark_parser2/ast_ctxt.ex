@@ -21,6 +21,11 @@ defmodule EarmarkParser2.AstCtxt do
           tokens: ast_tuple_ts()
         }
 
+  @spec add_error(t(), message_t()) :: t()
+  def add_error(%__MODULE__{messages: messages} = ast_ctxt, {severity, lnb, message}) do
+    %{ast_ctxt | messages: [{severity, lnb, message} | messages]}
+  end
+
   @spec new(options: Options.t(), tokens: token_ts()) :: t()
   def new(options: options, tokens: tokens) do
     %__MODULE__{
@@ -31,8 +36,8 @@ defmodule EarmarkParser2.AstCtxt do
   end
 
   @spec pop_token(t()) :: t()
-  def pop_token(%__MODULE__{tokens: [_|tokens]}=ast_ctxt) do
-    %{ast_ctxt| tokens: tokens}
+  def pop_token(%__MODULE__{tokens: [_ | tokens]} = ast_ctxt) do
+    %{ast_ctxt | tokens: tokens}
   end
 
   @spec to_tuples(t) :: ast_tuple_ts()
@@ -42,7 +47,8 @@ defmodule EarmarkParser2.AstCtxt do
   end
 
   @spec with_new(t()) :: t()
-  def with_new( ast_ctxt \\ %__MODULE__{})
+  def with_new(ast_ctxt \\ %__MODULE__{})
+
   def with_new(%__MODULE__{ast: ast} = ast_ctxt) do
     %{ast_ctxt | ast: [%AstNode{tag: :root} | ast]}
   end

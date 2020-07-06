@@ -1,6 +1,6 @@
 defmodule EarmarkParser2 do
   use EarmarkParser2.Types
-  alias EarmarkParser2.{AstCtxt, AstNode, Error, Lexer, Options, Parser}
+  alias EarmarkParser2.{AstCtxt, AstNode, Error, Lexer, Options, Parser, Token}
 
   @type input_t :: list(String.t()) | String.t()
   @type options_t :: Options.t() | map() | Keyword.t()
@@ -78,8 +78,8 @@ defmodule EarmarkParser2 do
     |> Enum.flat_map(&_join_pmap_results_or_raise(&1, timeout))
   end
 
-  @spec _tokenize_numbered_line(numbered_line_t()) :: token_ts()
+  @spec _tokenize_numbered_line(numbered_line_t()) :: nonempty_list(Token.t())
   defp _tokenize_numbered_line({line, lnb}) do
-    [{:nl, "", len: 0, lnb: lnb} | Lexer.tokenize(line, lnb: lnb)]
+    [Token.nl(lnb) | Lexer.tokenize(line, lnb: lnb)]
   end
 end
