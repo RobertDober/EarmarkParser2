@@ -16,6 +16,7 @@ defmodule EarmarkParser2.Token do
 
   @type ts :: list(t())
 
+  @spec nl(number()) :: t()
   def nl(lnb) do
     %__MODULE__{lnb: lnb, token: :nl}
   end

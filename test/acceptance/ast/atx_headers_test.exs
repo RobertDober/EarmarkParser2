@@ -13,6 +13,15 @@ defmodule Acceptance.Ast.AtxHeadersTest do
       assert as_ast(markdown) == {:ok, ast, messages}
     end
 
+    test "formatting content" do
+      markdown = "# _foo_ and **bar**"
+      ast = tag("h1", [tag("em", "foo"), "and", tag("strong", "bar")]) |> IO.inspect() 
+      messages = []
+
+      assert as_ast(markdown) == {:ok, ast, messages}
+
+    end
+
   #   test "seven? kidding, right?" do
   #     markdown = "####### foo\n"
   #     ast      = p("####### foo")

@@ -2,12 +2,13 @@ defmodule EarmarkParser2.Parser do
   @moduledoc false
 
   alias EarmarkParser2.{AstCtxt, AstNode, Options, Token}
+  alias EarmarkParser2.Parser.{TextParser}
   use EarmarkParser2.Types
 
   @typep ast_t :: AstNode.content_t()
   @typep ast_ts :: AstNode.content_ts()
 
-  @type t :: {token_ts(), AstNode.ts(), AstCtxt.t()}
+  @type parse_tuple_t :: {token_ts(), AstNode.ts(), AstCtxt.t()}
 
   @spec parse(AstCtxt.t()) :: AstCtxt.t()
   def parse(%AstCtxt{ast: ast, tokens: [_ | tokens]} = ast_ctxt) do
@@ -16,6 +17,7 @@ defmodule EarmarkParser2.Parser do
     %{ast_ctxt | ast: ast}
   end
 
+  @spec _parse_header(parse_tuple_t()) :: parse_tuple_t()
   defp _parse_header(parse_tuple)
 
   defp _parse_header({tokens, ast, ast_ctxt} = parse_tuple) do
@@ -24,7 +26,7 @@ defmodule EarmarkParser2.Parser do
         _parse_new({tokens1, AstNode.close_node(ast), ast_ctxt})
 
       _ ->
-        _parse_next_in_header(parse_tuple)
+        TextParser.parse_text(parse_tuple, &_parse_header/1)
     end
   end
 
@@ -35,7 +37,7 @@ defmodule EarmarkParser2.Parser do
   end
 
   # Precondition Top of ast is new AstNode
-  @spec _parse_new(t()) :: t()
+  @spec _parse_new(parse_tuple_t()) :: parse_tuple_t()
   defp _parse_new(parse_tuple)
 
   defp _parse_new({[], ast, ast_ctxt}) do
@@ -46,7 +48,7 @@ defmodule EarmarkParser2.Parser do
     _parse_new_line({tokens, ast, ast_ctxt})
   end
 
-  @spec _parse_new_line(t()) :: t()
+  @spec _parse_new_line(parse_tuple_t()) :: parse_tuple_t()
   defp _parse_new_line(parse_tuple)
 
   defp _parse_new_line({[%{token: :header, len: len} | tokens], ast, ast_ctxt}) do

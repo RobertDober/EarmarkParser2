@@ -21,6 +21,7 @@ defmodule EarmarkParser2.AstCtxt do
           tokens: ast_tuple_ts()
         }
 
+
   @spec add_error(t(), message_t()) :: t()
   def add_error(%__MODULE__{messages: messages} = ast_ctxt, {severity, lnb, message}) do
     %{ast_ctxt | messages: [{severity, lnb, message} | messages]}

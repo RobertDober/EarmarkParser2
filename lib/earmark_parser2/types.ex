@@ -21,6 +21,7 @@ defmodule EarmarkParser2.Types do
 
       @type numbered_line_t :: {String.t(), number()}
 
+
       @type status_t :: :ok | :error
       @type token_t :: {atom(), String.t(), len: number(), lnb: number()}
       @type token_ts :: list(token_t)
